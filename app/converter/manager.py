@@ -16,3 +16,12 @@ def update_currency():
                                                         'units': currency['Units'],
                                                         'amount': currency['Amount'],
                                                         'update_time': datetime.now(timezone.utc)})
+
+
+def convert(amount, pay, receive):
+    if (datetime.now(timezone.utc) - Currency.objects.get(pk=int(pay)).update_time).seconds > 3600:
+        update_currency()
+    pay_object = Currency.objects.get(pk=int(pay))
+    receive_object = Currency.objects.get(pk=int(receive))
+    result = float(amount) * pay_object.amount / pay_object.units / receive_object.amount * receive_object.units
+    return result

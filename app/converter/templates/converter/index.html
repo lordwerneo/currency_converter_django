@@ -2,4 +2,27 @@
 
 {% block content %}
 <h1>Index html</h1>
+<ul>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label class="test" for="summ">SUMM:</label>
+        <input type="number" name="summ" id="summ" value={{ summ }}>
+        <label for="from">FROM:</label>
+        <select name="from" id="from">
+            {% for curr in currencies%}
+            <option value="{{ curr.0 }}"  {%if from_curr == curr.0 %} selected {% endif %}>{{ curr.1}}</option>
+            {% endfor %}
+        </select>
+        <label for="to">TO:</label>
+        <select name="to" id="to">
+            {% for curr in currencies%}
+            <option value="{{ curr.0 }}" {%if to_curr == curr.0 %} selected {% endif %}>{{ curr.1 }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="CONVERT">
+    </form>
+    {% if result %}
+    <p>{{ result }}</p>
+    {% endif %}
+</ul>
 {% endblock %}
